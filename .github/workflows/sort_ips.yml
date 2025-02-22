@@ -1,7 +1,17 @@
 name: Sort IPs with Python
 
-on: [push]  # 触发条件：推送代码到仓库时
-  workflow_dispatch:   # 允许手动触发
+# 允许手动触发和推送触发
+on:
+  push:  # 推送代码时自动触发
+    paths:
+      - '**.txt'  # 只有当4.txt或6.txt文件被推送时才触发
+  workflow_dispatch:  # 手动触发
+    inputs:
+      manualTrigger:
+        description: 'Manual Trigger'
+        required: false
+        default: 'true'
+
 jobs:
   sort-ips:
     runs-on: ubuntu-latest  # 使用最新的Ubuntu环境
@@ -21,16 +31,12 @@ jobs:
 
       - name: Run Python script to sort IPs
         run: |
-          python sort_ips.py 4.txt || python sort_ips.py 6.txt
+          python sort_ips.py
 
-      - name: Upload sorted and formatted file
+      - name: Upload sorted and formatted files
         uses: actions/upload-artifact@v4  # 上传处理后的文件
         with:
-          name: ipv4.txt  # IPv4文件
-          path: ipv4.txt
-
-      - name: Upload sorted and formatted file (IPv6)
-        uses: actions/upload-artifact@v4  # 上传处理后的文件
-        with:
-          name: ipv6.txt  # IPv6文件
-          path: ipv6.txt
+          name: sorted_ips
+          path: |
+            ipv4.txt
+            ipv6.txt
