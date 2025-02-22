@@ -1,15 +1,5 @@
-def sort_ips(input_file, output_file):
+def sort_ips(input_file, output_file, format_str):
     try:
-        # 根据文件名判断是IPv4还是IPv6
-        if input_file.endswith("4.txt"):
-            ip_type = "ip"
-            format_str = "{}#移动{}"
-        elif input_file.endswith("6.txt"):
-            ip_type = "ip6"
-            format_str = "[{}]#移动{}"
-        else:
-            raise ValueError("Unsupported file name. Use '4.txt' for IPv4 or '6.txt' for IPv6.")
-
         # 读取IP地址
         with open(input_file, 'r') as file:
             ips = file.readlines()
@@ -25,17 +15,12 @@ def sort_ips(input_file, output_file):
 
         print(f"IPs sorted and formatted successfully. Output saved to {output_file}")
     except Exception as e:
-        print(f"Error: {e}")
+        print(f"Error processing {input_file}: {e}")
 
 
 if __name__ == "__main__":
-    import sys
+    # 处理 IPv4 文件
+    sort_ips("4.txt", "ipv4.txt", "{}#移动{}")
 
-    # 从命令行参数获取输入文件名
-    if len(sys.argv) != 2:
-        print("Usage: python sort_ips.py <input_file>")
-        sys.exit(1)
-
-    input_file = sys.argv[1]  # 输入文件名
-    output_file = "ipv4.txt" if input_file.endswith("4.txt") else "ipv6.txt"  # 输出文件名
-    sort_ips(input_file, output_file)
+    # 处理 IPv6 文件
+    sort_ips("6.txt", "ipv6.txt", "[{}]#移动{}")
