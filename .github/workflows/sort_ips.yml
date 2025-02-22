@@ -1,0 +1,36 @@
+name: Sort IPs with Python
+
+on: [push]  # 触发条件：推送代码到仓库时
+
+jobs:
+  sort-ips:
+    runs-on: ubuntu-latest  # 使用最新的Ubuntu环境
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3  # 检出代码
+
+      - name: Set up Python
+        uses: actions/setup-python@v4  # 设置Python环境
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+
+      - name: Run Python script to sort IPs
+        run: |
+          python sort_ips.py 4.txt || python sort_ips.py 6.txt
+
+      - name: Upload sorted and formatted file
+        uses: actions/upload-artifact@v4  # 上传处理后的文件
+        with:
+          name: ipv4.txt  # IPv4文件
+          path: ipv4.txt
+
+      - name: Upload sorted and formatted file (IPv6)
+        uses: actions/upload-artifact@v4  # 上传处理后的文件
+        with:
+          name: ipv6.txt  # IPv6文件
+          path: ipv6.txt
