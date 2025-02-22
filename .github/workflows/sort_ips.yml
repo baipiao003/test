@@ -35,6 +35,8 @@ jobs:
           python sort_ips.py
 
       - name: Commit and push sorted files
+        env:
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}  # 使用个人访问令牌
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
