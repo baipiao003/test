@@ -1,7 +1,7 @@
 name: Sort IPs with Python
 
 on: [push]  # 触发条件：推送代码到仓库时
-   workflow_dispatch:   # 允许手动触发
+  workflow_dispatch:   # 允许手动触发
 jobs:
   sort-ips:
     runs-on: ubuntu-latest  # 使用最新的Ubuntu环境
